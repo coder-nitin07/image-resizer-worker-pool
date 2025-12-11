@@ -1,4 +1,4 @@
-const { parentPort } = require('worker_thread');
+const { parentPort } = require('worker_threads');
 const sharp = require('sharp');
 
 parentPort.on('message', async (data)=>{

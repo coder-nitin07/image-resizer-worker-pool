@@ -5,8 +5,8 @@ class WorkerPool {
     constructor (size, workerPath) {
         this.size = size;                   // total workers
         this.workerPath = workerPath;       // path to imageWorker.js
-        this.worker =  [];                  // active workers
-        this.freeworker = [];               // available workers
+        this.workers =  [];                  // active workers
+        this.freeWorkers = [];               // available workers
         this.taskQueue = [];                // pending task queue
 
         this._createWorkers();
@@ -20,7 +20,7 @@ class WorkerPool {
             this.workers.push(worker);
 
             // initially, worker is free
-            this.freeworker.push(worker);
+            this.freeWorkers.push(worker);
 
             // handle worker finsih task
             worker.on('message', (result)=>{
@@ -53,7 +53,7 @@ class WorkerPool {
     runTask(data){
         return new Promise((resolve, reject)=>{
             // check for free worker
-            const worker = this.freeworkers.find(w => !w.isBusy);
+            const worker = this.freeWorkers.find(w => !w.isBusy);
 
             if(worker){
                 // assign immediately
